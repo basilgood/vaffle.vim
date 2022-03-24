@@ -291,9 +291,8 @@ function! vaffle#delete_selected() abort
         \ ? printf('Delete ''%s'' (y/N)? ', items[0].basename)
         \ : printf('Delete %d selected files (y/N)? ', len(items))
   let yn = input(message)
-  echo "\n"
   if empty(yn) || yn ==? 'n'
-    echo 'Cancelled.'
+    echo ' -> Cancelled.'
     return
   endif
 
@@ -320,9 +319,8 @@ function! vaffle#move_selected() abort
         \ ? printf('Move ''%s'' to: ', items[0].basename)
         \ : printf('Move %d selected files to: ', len(items))
   let dst_name = input(message, '', 'dir')
-  echo "\n"
   if empty(dst_name)
-    echo 'Cancelled.'
+    echo ' -> Cancelled.'
     return
   endif
 
@@ -337,9 +335,8 @@ function! vaffle#mkdir() abort
   call s:keep_buffer_singularity()
 
   let name = input('New directory name: ')
-  echo "\n"
   if empty(name)
-    echo 'Cancelled.'
+    echo ' -> Cancelled.'
     return
   endif
 
@@ -354,9 +351,8 @@ function! vaffle#new_file() abort
   call s:keep_buffer_singularity()
 
   let name = input('New file name: ')
-  echo "\n"
   if empty(name)
-    echo 'Cancelled.'
+    echo ' -> Cancelled.'
     return
   endif
 
@@ -379,9 +375,8 @@ function! vaffle#rename_selected() abort
     let def_name = vaffle#util#get_last_component(
           \ items[0].path, items[0].is_dir)
     let new_basename = input('New file name: ', def_name)
-    echo "\n"
     if empty(new_basename)
-      echo 'Cancelled.'
+      echo ' -> Cancelled.'
       return
     endif
 

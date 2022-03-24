@@ -92,9 +92,9 @@ function! vaffle#file#delete(items) abort
           \ : (item.is_dir ? 'd' : '')
     if delete(item.path, flag) < 0
       call vaffle#util#echo_error(
-            \ printf('Cannot delete file: ''%s''', item.basename))
+            \ printf(' -> Cannot delete file: ''%s''', item.basename))
     else
-      echo printf('Deleted file: ''%s''',
+      echo printf(' -> Deleted file: ''%s''',
             \ item.basename)
     endif
   endfor
@@ -108,13 +108,13 @@ function! vaffle#file#mkdir(filer, name) abort
 
   if filereadable(path) || isdirectory(path)
     call vaffle#util#echo_error(
-          \ printf('File already exists: ''%s''', a:name))
+          \ printf(' -> File already exists: ''%s''', a:name))
     return
   endif
 
-  call mkdir(path, '')
+  call mkdir(path, 'p')
 
-  echo printf('Created new directory: ''%s''',
+  echo printf(' -> Created new directory: ''%s''',
         \ a:name)
 endfunction
 
@@ -134,7 +134,7 @@ function! vaffle#file#move(filer, items, dst_name) abort
 
   if !isdirectory(dst_dir)
     call vaffle#util#echo_error(
-          \ printf('Destination is not a directory: ''%s''', dst_dir))
+          \ printf(' -> Destination is not a directory: ''%s''', dst_dir))
     return
   endif
 
@@ -148,13 +148,13 @@ function! vaffle#file#move(filer, items, dst_name) abort
 
     if filereadable(dst_path) || isdirectory(dst_path)
       call vaffle#util#echo_error(
-            \ printf('File already exists. Skipped: ''%s''', dst_path))
+            \ printf(' -> File already exists. Skipped: ''%s''', dst_path))
       continue
     endif
 
     call rename(item.path, dst_path)
 
-    echo printf('Moved file: ''%s'' -> ''%s''',
+    echo printf(' -> Moved file: ''%s'' -> ''%s''',
           \ item.basename,
           \ dst_path)
   endfor
@@ -176,13 +176,13 @@ function! vaffle#file#rename(filer, items, new_basenames) abort
     if filereadable(new_path) || isdirectory(new_path)
       call add(renamed_paths, '')
       call vaffle#util#echo_error(
-            \ printf('File already exists, skipped: ''%s''', new_path))
+            \ printf(' -> File already exists, skipped: ''%s''', new_path))
       continue
     endif
 
     call rename(item.path, new_path)
     call add(renamed_paths, new_path)
-    echo printf('Renamed file: ''%s'' -> ''%s''',
+    echo printf(' -> Renamed file: ''%s'' -> ''%s''',
           \ item.basename,
           \ new_basename)
   endfor
